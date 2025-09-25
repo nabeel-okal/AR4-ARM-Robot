@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/files">
+        <file>images/cat_3.jpeg</file>
+        <file>images/cat_2.png</file>
+        <file>images/dog_3.jpeg</file>
+        <file>images/dog_2.jpeg</file>
+        <file>images/dog_1.png</file>
+        <file>images/space_1.png</file>
+        <file>images/red_circle.png</file>
+        <file>images/green_circle.png</file>
+        <file>images/mousepad(3).png</file>
+    </qresource>
+</RCC>

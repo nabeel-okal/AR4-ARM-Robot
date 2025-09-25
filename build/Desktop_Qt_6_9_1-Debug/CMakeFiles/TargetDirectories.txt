@@ -1,0 +1,9 @@
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/AR4_PickAndPlace.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/edit_cache.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/rebuild_cache.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/list_install_components.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/install.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/install/local.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/install/strip.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/AR4_PickAndPlace_autogen_timestamp_deps.dir
+/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_1-Debug/CMakeFiles/AR4_PickAndPlace_autogen.dir

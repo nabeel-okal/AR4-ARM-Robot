@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_AR4_PickAndPlace_FILE /home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/AR4_PickAndPlace)
+set(__QT_DEPLOY_TARGET_AR4_PickAndPlace_TYPE EXECUTABLE)
