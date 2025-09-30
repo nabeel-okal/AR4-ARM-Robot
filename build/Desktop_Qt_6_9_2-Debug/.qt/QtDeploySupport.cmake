@@ -58,8 +58,8 @@ set(__QT_DEPLOY_QT_DEBUG_POSTFIX "")
 
 # Define the CMake commands to be made available during deployment.
 set(__qt_deploy_support_files
-    "/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/.qt/QtDeployTargets.cmake"
-    "/home/nabeel_okal/Qt/6.9.2/gcc_64/lib/cmake/Qt6Core/Qt6CoreDeploySupport.cmake"
+    "/mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/.qt/QtDeployTargets.cmake"
+    "/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/lib/cmake/Qt6Core/Qt6CoreDeploySupport.cmake"
 )
 foreach(__qt_deploy_support_file IN LISTS __qt_deploy_support_files)
     include("${__qt_deploy_support_file}")

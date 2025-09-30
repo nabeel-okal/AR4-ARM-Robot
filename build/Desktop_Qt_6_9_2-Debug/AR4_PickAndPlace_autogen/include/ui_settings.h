@@ -17,7 +17,6 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
@@ -31,11 +30,13 @@ public:
     QVBoxLayout *verticalLayout_3;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
-    QGridLayout *gridLayout;
+    QHBoxLayout *horizontalLayout_2;
     QLabel *label;
-    QLineEdit *lineRobotIP;
+    QComboBox *comboSerialPort;
+    QPushButton *refreshPortsBtn;
+    QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
-    QSpinBox *spinRobotPort;
+    QComboBox *comboBaud;
     QPushButton *btnConnectRobot;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_2;
@@ -144,33 +145,41 @@ public:
         groupBox->setObjectName("groupBox");
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setObjectName("verticalLayout");
-        gridLayout = new QGridLayout();
-        gridLayout->setObjectName("gridLayout");
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName("horizontalLayout_2");
         label = new QLabel(groupBox);
         label->setObjectName("label");
 
-        gridLayout->addWidget(label, 0, 0, 1, 1);
+        horizontalLayout_2->addWidget(label);
 
-        lineRobotIP = new QLineEdit(groupBox);
-        lineRobotIP->setObjectName("lineRobotIP");
+        comboSerialPort = new QComboBox(groupBox);
+        comboSerialPort->setObjectName("comboSerialPort");
 
-        gridLayout->addWidget(lineRobotIP, 0, 1, 1, 1);
+        horizontalLayout_2->addWidget(comboSerialPort);
 
+        refreshPortsBtn = new QPushButton(groupBox);
+        refreshPortsBtn->setObjectName("refreshPortsBtn");
+
+        horizontalLayout_2->addWidget(refreshPortsBtn);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
         label_2 = new QLabel(groupBox);
         label_2->setObjectName("label_2");
         label_2->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
-        gridLayout->addWidget(label_2, 1, 0, 1, 1);
+        horizontalLayout_3->addWidget(label_2);
 
-        spinRobotPort = new QSpinBox(groupBox);
-        spinRobotPort->setObjectName("spinRobotPort");
-        spinRobotPort->setMaximum(10000);
-        spinRobotPort->setValue(5000);
+        comboBaud = new QComboBox(groupBox);
+        comboBaud->setObjectName("comboBaud");
 
-        gridLayout->addWidget(spinRobotPort, 1, 1, 1, 1);
+        horizontalLayout_3->addWidget(comboBaud);
 
 
-        verticalLayout->addLayout(gridLayout);
+        verticalLayout->addLayout(horizontalLayout_3);
 
         btnConnectRobot = new QPushButton(groupBox);
         btnConnectRobot->setObjectName("btnConnectRobot");
@@ -249,9 +258,9 @@ public:
     {
         Settings->setWindowTitle(QCoreApplication::translate("Settings", "Form", nullptr));
         groupBox->setTitle(QCoreApplication::translate("Settings", "Robot Connection", nullptr));
-        label->setText(QCoreApplication::translate("Settings", "Robot IP:", nullptr));
-        lineRobotIP->setText(QString());
-        label_2->setText(QCoreApplication::translate("Settings", "Port:", nullptr));
+        label->setText(QCoreApplication::translate("Settings", "Serial Port:", nullptr));
+        refreshPortsBtn->setText(QCoreApplication::translate("Settings", "Refresh Ports", nullptr));
+        label_2->setText(QCoreApplication::translate("Settings", "Baud Rate:", nullptr));
         btnConnectRobot->setText(QCoreApplication::translate("Settings", "Connect", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("Settings", "Camera Settings", nullptr));
         label_3->setText(QCoreApplication::translate("Settings", "Camera Index:", nullptr));

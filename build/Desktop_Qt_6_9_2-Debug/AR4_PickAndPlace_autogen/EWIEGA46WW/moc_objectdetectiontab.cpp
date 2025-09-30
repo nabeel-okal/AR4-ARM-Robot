@@ -39,10 +39,17 @@ template <> constexpr inline auto ObjectDetectionTab::qt_create_metaobjectdata<q
 {
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
-        "ObjectDetectionTab"
+        "ObjectDetectionTab",
+        "onFrameReady",
+        "",
+        "frame"
     };
 
     QtMocHelpers::UintData qt_methods {
+        // Slot 'onFrameReady'
+        QtMocHelpers::SlotData<void(const QImage &)>(1, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QImage, 3 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -64,10 +71,12 @@ Q_CONSTINIT const QMetaObject ObjectDetectionTab::staticMetaObject = { {
 void ObjectDetectionTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     auto *_t = static_cast<ObjectDetectionTab *>(_o);
-    (void)_t;
-    (void)_c;
-    (void)_id;
-    (void)_a;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        switch (_id) {
+        case 0: _t->onFrameReady((*reinterpret_cast< std::add_pointer_t<QImage>>(_a[1]))); break;
+        default: ;
+        }
+    }
 }
 
 const QMetaObject *ObjectDetectionTab::metaObject() const
@@ -86,6 +95,18 @@ void *ObjectDetectionTab::qt_metacast(const char *_clname)
 int ObjectDetectionTab::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 1)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 1;
+    }
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 1)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 1;
+    }
     return _id;
 }
 QT_WARNING_POP

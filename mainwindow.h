@@ -39,7 +39,8 @@ public:
     ~MainWindow();
 
     // Getters
-    QLabel *getCameraStatusLabel() const;
+    QLabel* getCameraStatusLabel() const;
+    CameraWorker* getCameraWorker() const;
 
 private slots:
 
@@ -58,7 +59,6 @@ private:
 
     void init();
     void setCameraStatus(bool connected);
-    void setRobotStatus(bool connected);
 
     QThread m_camThread;
     QThread m_robotThread;

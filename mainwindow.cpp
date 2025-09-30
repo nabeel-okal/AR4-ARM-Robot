@@ -37,16 +37,6 @@ void MainWindow::init()
     // Default to first tab
     ui->tabWidget->setCurrentIndex(0);
 
-    // --- Object Detection tab setup ---
-    obDetTab->getDetectionPreviewLabel()->setScaledContents(true);
-    obDetTab->getDetectionPreviewLabel()->setAlignment(Qt::AlignCenter);
-
-    // Wire Start/Stop → camera on/off
-    connect(obDetTab->getStartDetBtn(), &QPushButton::clicked,
-            this, &MainWindow::startCamera);
-    connect(obDetTab->getStopDetBtn(),  &QPushButton::clicked,
-            this, &MainWindow::stopCamera);
-
     // Signal connections from RobotControl Tab
 
     connect(robotControl, &RobotControl::driveRequested, this,
@@ -109,24 +99,24 @@ void MainWindow::init()
 
     // Fill serial port list and wire Connect button
     populateSerialPorts();
-    connect(robotControl->findChild<QPushButton*>("btnConnect"), &QPushButton::clicked,
-            this, [this](){
-                auto portBox = robotControl->findChild<QComboBox*>("comboPort");
-                auto btn = robotControl->findChild<QPushButton*>("btnConnect");
-                if (!portBox || !btn) return;
-                if (btn->text() == "Connect") {
-                    const QString port = portBox->currentText();
-                    // call into worker thread
-                    QMetaObject::invokeMethod(m_robot, "connectTo",
-                                              Qt::QueuedConnection,
-                                              Q_ARG(QString, port),
-                                              Q_ARG(int, 115200));
-                    btn->setText("Disconnect");
-                } else {
-                    QMetaObject::invokeMethod(m_robot, "disconnectFrom", Qt::QueuedConnection);
-                    btn->setText("Connect");
-                }
-    });
+    // connect(robotControl->findChild<QPushButton*>("btnConnect"), &QPushButton::clicked,
+    //         this, [this](){
+    //             auto portBox = robotControl->findChild<QComboBox*>("comboPort");
+    //             auto btn = robotControl->findChild<QPushButton*>("btnConnect");
+    //             if (!portBox || !btn) return;
+    //             if (btn->text() == "Connect") {
+    //                 const QString port = portBox->currentText();
+    //                 // call into worker thread
+    //                 QMetaObject::invokeMethod(m_robot, "connectTo",
+    //                                           Qt::QueuedConnection,
+    //                                           Q_ARG(QString, port),
+    //                                           Q_ARG(int, 115200));
+    //                 btn->setText("Disconnect");
+    //             } else {
+    //                 QMetaObject::invokeMethod(m_robot, "disconnectFrom", Qt::QueuedConnection);
+    //                 btn->setText("Connect");
+    //             }
+    // });
 
     // Speed scale: your UI emits 0..100; worker applies final scaling again.
     // We just forward the percent:
@@ -188,6 +178,36 @@ void MainWindow::init()
                                               Q_ARG(char, axis), Q_ARG(double, v));
                 }
             });
+
+    // Settings connections
+    connect(settings, &Settings::robotStatusMessage,
+            this, [this](const QString msg) {
+        if (msg == "ON") {
+            ui->robotStatusLabel->setText(msg);
+            ui->robotStatusLabel->setStyleSheet("background-color: green;");
+        } else {
+            ui->robotStatusLabel->setText(msg);
+            ui->robotStatusLabel->setStyleSheet("background-color: red;");
+        }
+    });
+
+    // Settings -> Worker (queued, thread-safe)
+    connect(settings, &Settings::requestConnectSerial, m_robot, &RobotControllerWorker::connectTo, Qt::QueuedConnection);
+    connect(settings, &Settings::requestDisconnect, m_robot, &RobotControllerWorker::disconnectFrom, Qt::QueuedConnection);
+    connect(settings, &Settings::requestPing, m_robot, &RobotControllerWorker::ping, Qt::QueuedConnection);
+
+    // Worker -> Settings (status + logs)
+    connect(m_robot, &RobotControllerWorker::connectedChanged,
+            settings, &Settings::onRobotConnectedChanged, Qt::QueuedConnection);
+
+    /* connect(m_robotWorker, &RobotControllerWorker::info,
+            settingsTab, &Settings::onRobotTx, Qt::QueuedConnection);
+
+    connect(m_robotWorker, &RobotControllerWorker::error,
+            settingsTab, &Settings::onRobotError, Qt::QueuedConnection);
+
+    connect(m_robotWorker, &RobotControllerWorker::rxLine,
+            settingsTab, &Settings::onRobotRx, Qt::QueuedConnection); */
 }
 
 void MainWindow::setCameraStatus(bool connected)
@@ -196,15 +216,6 @@ void MainWindow::setCameraStatus(bool connected)
         ui->cameraStatusLabel->setStyleSheet("background-color: green; border-radius: 10px;");
     } else {
         ui->cameraStatusLabel->setStyleSheet("background-color: red; border-radius: 10px;");
-    }
-}
-
-void MainWindow::setRobotStatus(bool connected)
-{
-    if (connected) {
-        ui->robotStatusLabel->setStyleSheet("background-color: green; border-radius: 10px;");
-    } else {
-        ui->robotStatusLabel->setStyleSheet("background-color: red; border-radius: 10px;");
     }
 }
 
@@ -304,3 +315,5 @@ void MainWindow::updateDetectionFrame()
 }
 
 QLabel *MainWindow::getCameraStatusLabel() const { return ui->cameraStatusLabel; }
+
+CameraWorker *MainWindow::getCameraWorker() const { return m_camWorker; }

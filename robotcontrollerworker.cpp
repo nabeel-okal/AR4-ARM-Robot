@@ -31,6 +31,7 @@ void RobotControllerWorker::connectTo(const QString &portName, int baud)
     emit connectedChanged(true);
 
     // TODO (optional): send any init/handshake here for AR4
+    writeLine("HELLO");
 }
 
 void RobotControllerWorker::disconnectFrom()
@@ -42,6 +43,23 @@ void RobotControllerWorker::disconnectFrom()
     emit connectedChanged(false);
 }
 
+void RobotControllerWorker::ping(const QString &cmd, int readTimeoutMs)
+{
+    if (!writeLine(cmd)) return;
+
+    if (!m_port.waitForReadyRead(readTimeoutMs)) {
+        emit error("Ping timeout (no reply).");
+        return;
+    }
+    QByteArray all = m_port.readAll();
+    while (m_port.waitForReadyRead(10))
+        all += m_port.readAll();
+
+    const QString s = QString::fromUtf8(all).trimmed();
+    emit rxLine(QString::fromUtf8(all).trimmed());
+    if(!s.isEmpty()) emit rxLine(s);
+}
+
 bool RobotControllerWorker::writeLine(const QString &line)
 {
     if(!m_port.isOpen()) {
@@ -49,14 +67,23 @@ bool RobotControllerWorker::writeLine(const QString &line)
         return false;
     }
 
-    const QByteArray bytes = (line + "\r\n").toUtf8();
+    QString out = line;
+    if (m_appendCR) out += '\r';
+    if (m_appendLF) out += '\n';
+
+    const QByteArray bytes = out.toUtf8();
     const qint64 n = m_port.write(bytes);
 
-    if(n != bytes.size()) {
-        emit error(QString("Write failed: &1").arg(m_port.errorString()));
+    if (n != bytes.size()) {
+        emit error(QString("Write failed: %1").arg(m_port.errorString()));
         return false;
     }
-    m_port.flush();
+
+    if (!m_port.waitForBytesWritten(200)) {
+        emit error("Write timeout.");
+        return false;
+    }
+
     emit info("TX: " + line);
     return true;
 }
@@ -72,12 +99,11 @@ void RobotControllerWorker::enableMotors(bool on)
 
 void RobotControllerWorker::setSpeedPercent(int percent)
 {
-    if (percent < 0) percent = 0;
-    if (percent > 100) percent = 100;
+    int p = std::clamp(percent, 0, 100);
+    m_speedPercent = p;
 
-    m_speedPercent = percent;
     // TODO: AR4 protocol
-    // Example: writeLine(QString("SPEED %1").arg(m_speedPercent));
+    // For now we just log & use this in jog calculations.
     writeLine(QString("SPEED %1").arg(m_speedPercent));
 }
 
@@ -95,10 +121,8 @@ void RobotControllerWorker::stop()
 
 bool RobotControllerWorker::jogJoint(int jointIndex, double velocityDegPerSec)
 {
-    if (!m_port.isOpen()) {
-        emit error("Port not open.");
-        return false;
-    }
+    if (!m_port.isOpen()) { emit error("Port not open."); return false; }
+
     // 1) validate inputs
     if (jointIndex < 1 || jointIndex > 6) {
         emit error("Invalid joint index (must be 1..6).");
@@ -106,7 +130,7 @@ bool RobotControllerWorker::jogJoint(int jointIndex, double velocityDegPerSec)
     }
 
     // 2) apply speed scaling (UI slider)
-    const double scale = qBound(0, m_speedPercent, 100) / 100.0;
+    const double scale = std::clamp(m_speedPercent, 0, 100) / 100.0;
     const double v = velocityDegPerSec * scale; // final velocity
 
     // 3) format the controller command
@@ -120,19 +144,18 @@ bool RobotControllerWorker::jogJoint(int jointIndex, double velocityDegPerSec)
 
 bool RobotControllerWorker::jogPlanar(char axis, double velocityMmPerSec)
 {
-    if (!m_port.isOpen()) {
-        emit error("Port not open.");
-        return false;
-    }
+    if (!m_port.isOpen()) { emit error("Port not open."); return false; }
+
     // 1) validate inputs
-    axis = toupper(axis);
+    axis = static_cast<char>(toupper(static_cast<unsigned char>(axis)));
+
     if (!(axis == 'X' || axis == 'Y' || axis == 'Z')) {
         emit error("Axis must be X, Y, or Z.");
         return false;
     }
 
     // 2) apply speed scaling
-    const double scale = qBound(0, m_speedPercent, 100) / 100.0;
+    const double scale = std::clamp(0, m_speedPercent, 100) / 100.0;
     const double v = velocityMmPerSec * scale;
 
     // 3) format the controller command
@@ -149,7 +172,7 @@ void RobotControllerWorker::onReadyRead()
     while (m_port.canReadLine()) {
         const QByteArray line = m_port.readLine();
         const QString s = QString::fromUtf8(line).trimmed();
-        emit rxLine(s);
+        if (!s.isEmpty()) emit rxLine(s);
         // TODO (optional): parse feedback/state here and emit typed signals
     }
 }

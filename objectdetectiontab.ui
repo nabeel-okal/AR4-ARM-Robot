@@ -582,6 +582,11 @@
           <height>240</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	background-color: #767676;
+}</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>

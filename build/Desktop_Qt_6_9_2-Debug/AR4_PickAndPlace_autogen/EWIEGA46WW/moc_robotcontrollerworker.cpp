@@ -50,6 +50,9 @@ template <> constexpr inline auto RobotControllerWorker::qt_create_metaobjectdat
         "portName",
         "baud",
         "disconnectFrom",
+        "ping",
+        "cmd",
+        "readTimeoutMs",
         "enableMotors",
         "on",
         "setSpeedPercent",
@@ -75,11 +78,11 @@ template <> constexpr inline auto RobotControllerWorker::qt_create_metaobjectdat
             { QMetaType::QString, 5 },
         }}),
         // Signal 'error'
-        QtMocHelpers::SignalData<void(const QString)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const QString &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 5 },
         }}),
         // Signal 'rxLine'
-        QtMocHelpers::SignalData<void(const QString)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const QString &)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 5 },
         }}),
         // Slot 'connectTo'
@@ -92,28 +95,38 @@ template <> constexpr inline auto RobotControllerWorker::qt_create_metaobjectdat
         }}),
         // Slot 'disconnectFrom'
         QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'ping'
+        QtMocHelpers::SlotData<void(const QString &, int)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 13 }, { QMetaType::Int, 14 },
+        }}),
+        // Slot 'ping'
+        QtMocHelpers::SlotData<void(const QString &)>(12, 2, QMC::AccessPublic | QMC::MethodCloned, QMetaType::Void, {{
+            { QMetaType::QString, 13 },
+        }}),
+        // Slot 'ping'
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPublic | QMC::MethodCloned, QMetaType::Void),
         // Slot 'enableMotors'
-        QtMocHelpers::SlotData<void(bool)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Bool, 13 },
+        QtMocHelpers::SlotData<void(bool)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 16 },
         }}),
         // Slot 'setSpeedPercent'
-        QtMocHelpers::SlotData<void(int)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 15 },
+        QtMocHelpers::SlotData<void(int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 18 },
         }}),
         // Slot 'home'
-        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'stop'
-        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'jogJoint'
-        QtMocHelpers::SlotData<bool(int, double)>(18, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 19 }, { QMetaType::Double, 20 },
+        QtMocHelpers::SlotData<bool(int, double)>(21, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 22 }, { QMetaType::Double, 23 },
         }}),
         // Slot 'jogPlanar'
-        QtMocHelpers::SlotData<bool(char, double)>(21, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Char, 22 }, { QMetaType::Double, 23 },
+        QtMocHelpers::SlotData<bool(char, double)>(24, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Char, 25 }, { QMetaType::Double, 26 },
         }}),
         // Slot 'onReadyRead'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -144,15 +157,18 @@ void RobotControllerWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c
         case 4: _t->connectTo((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
         case 5: _t->connectTo((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 6: _t->disconnectFrom(); break;
-        case 7: _t->enableMotors((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 8: _t->setSpeedPercent((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 9: _t->home(); break;
-        case 10: _t->stop(); break;
-        case 11: { bool _r = _t->jogJoint((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<double>>(_a[2])));
+        case 7: _t->ping((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 8: _t->ping((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 9: _t->ping(); break;
+        case 10: _t->enableMotors((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 11: _t->setSpeedPercent((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 12: _t->home(); break;
+        case 13: _t->stop(); break;
+        case 14: { bool _r = _t->jogJoint((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<double>>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 12: { bool _r = _t->jogPlanar((*reinterpret_cast< std::add_pointer_t<char>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<double>>(_a[2])));
+        case 15: { bool _r = _t->jogPlanar((*reinterpret_cast< std::add_pointer_t<char>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<double>>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 13: _t->onReadyRead(); break;
+        case 16: _t->onReadyRead(); break;
         default: ;
         }
     }
@@ -161,9 +177,9 @@ void RobotControllerWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c
             return;
         if (QtMocHelpers::indexOfMethod<void (RobotControllerWorker::*)(const QString & )>(_a, &RobotControllerWorker::info, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (RobotControllerWorker::*)(const QString )>(_a, &RobotControllerWorker::error, 2))
+        if (QtMocHelpers::indexOfMethod<void (RobotControllerWorker::*)(const QString & )>(_a, &RobotControllerWorker::error, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (RobotControllerWorker::*)(const QString )>(_a, &RobotControllerWorker::rxLine, 3))
+        if (QtMocHelpers::indexOfMethod<void (RobotControllerWorker::*)(const QString & )>(_a, &RobotControllerWorker::rxLine, 3))
             return;
     }
 }
@@ -187,14 +203,14 @@ int RobotControllerWorker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 17;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 17)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 14;
+        _id -= 17;
     }
     return _id;
 }
@@ -212,13 +228,13 @@ void RobotControllerWorker::info(const QString & _t1)
 }
 
 // SIGNAL 2
-void RobotControllerWorker::error(const QString _t1)
+void RobotControllerWorker::error(const QString & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
 }
 
 // SIGNAL 3
-void RobotControllerWorker::rxLine(const QString _t1)
+void RobotControllerWorker::rxLine(const QString & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }

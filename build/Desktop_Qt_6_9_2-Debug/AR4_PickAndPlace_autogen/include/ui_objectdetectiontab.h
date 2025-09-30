@@ -194,6 +194,9 @@ public:
         sizePolicy.setHeightForWidth(detectionPreviewLabel->sizePolicy().hasHeightForWidth());
         detectionPreviewLabel->setSizePolicy(sizePolicy);
         detectionPreviewLabel->setMinimumSize(QSize(320, 240));
+        detectionPreviewLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
+"	background-color: #767676;\n"
+"}"));
 
         verticalLayout_6->addWidget(detectionPreviewLabel);
 

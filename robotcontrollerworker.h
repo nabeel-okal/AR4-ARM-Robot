@@ -1,7 +1,9 @@
 #pragma once
 #include <QObject>
 #include <QSerialPort>
-#include <QTimer>
+// #include <QTimer>
+#include <QScopedPointer>
+#include <QIODevice>
 
 class RobotControllerWorker : public QObject {
     Q_OBJECT
@@ -11,14 +13,17 @@ public:
 
 signals:
     void connectedChanged(bool ok);
-    void info(const QString& line);
-    void error(const QString line);
-    void rxLine(const QString line);    // Raw feedback (If I want to show it)
+    void info(const QString &line);
+    void error(const QString &line);
+    void rxLine(const QString &line);    // Raw feedback (If I want to show it)
 
 public slots:
     // connection
     void connectTo(const QString& portName, int baud = 115200);
     void disconnectFrom();
+
+    // Utilities
+    void ping(const QString &cmd = "?", int readTimeoutMs = 500);
 
     // High-level control
     void enableMotors(bool on);
@@ -34,8 +39,11 @@ private slots:
     void onReadyRead();
 
 private:
+    bool writeLine(const QString &line);
+
     QSerialPort m_port;
     int m_speedPercent = 50;
-
-    bool writeLine(const QString& line);
+    QScopedPointer<QSerialPort> m_serial;
+    QIODevice *m_dev = nullptr;             // points to m_serial when open
+    bool m_appendCR = true, m_appendLF = true;  // tweak if your controller wants different endings
 };

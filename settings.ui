@@ -490,40 +490,40 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Robot IP:</string>
+           <string>Serial Port:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineRobotIP">
+        <item>
+         <widget class="QComboBox" name="comboSerialPort"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="refreshPortsBtn">
           <property name="text">
-           <string/>
+           <string>Refresh Ports</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Port:</string>
+           <string>Baud Rate:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="spinRobotPort">
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-          <property name="value">
-           <number>5000</number>
-          </property>
-         </widget>
+        <item>
+         <widget class="QComboBox" name="comboBaud"/>
         </item>
        </layout>
       </item>

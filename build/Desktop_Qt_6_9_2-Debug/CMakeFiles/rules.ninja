@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /home/nabeel_okal/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace -B/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug
+  command = /mnt/nabeel_data/dev/qt/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace -B/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug
   description = Re-running CMake...
   generator = 1
 
@@ -51,7 +51,7 @@ rule RERUN_CMAKE
 # Rule for cleaning additional files.
 
 rule CLEAN_ADDITIONAL
-  command = /home/nabeel_okal/Qt/Tools/CMake/bin/cmake -DCONFIG=$CONFIG -P CMakeFiles/clean_additional.cmake
+  command = /mnt/nabeel_data/dev/qt/Qt/Tools/CMake/bin/cmake -DCONFIG=$CONFIG -P CMakeFiles/clean_additional.cmake
   description = Cleaning additional files...
 
 
