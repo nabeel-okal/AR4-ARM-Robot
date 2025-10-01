@@ -5,6 +5,10 @@
 
 #include <QPainter>
 #include <QPen>
+#include <QPlainTextEdit>
+#include <QLabel>
+#include <QComboBox>
+#include <QSlider>
 #include <QBrush>
 #include <QtMath>
 #include <algorithm>
@@ -40,10 +44,10 @@ static QImage matToQImageRGB(const cv::Mat& m)
     return QImage(rgb.data, rgb.cols, rgb.rows, static_cast<int>(rgb.step), QImage::Format_RGB888).copy();
 }
 
-ObjectDetectionTab::ObjectDetectionTab(QWidget *parent, MainWindow *mainWindow)
+ObjectDetectionTab::ObjectDetectionTab(QWidget *parent, MainWindow *mw)
     : QWidget(parent)
     , ui(new Ui::ObjectDetectionTab)
-    , mainwindow(mainWindow)
+    , m_mainWindow(mw)
 {
     ui->setupUi(this);
 
@@ -52,8 +56,16 @@ ObjectDetectionTab::ObjectDetectionTab(QWidget *parent, MainWindow *mainWindow)
 
     connect(ui->startDetectionBtn, &QPushButton::clicked, this, &ObjectDetectionTab::on_startDetectionBtn_clicked);
     connect(ui->stopDetectionBtn,  &QPushButton::clicked, this, &ObjectDetectionTab::on_stopDetectionBtn_clicked);
-    connect(ui->confSlider,        &QSlider::valueChanged, this, &ObjectDetectionTab::on_confSlider_valueChanged);
-    connect(ui->modelComboBox,     QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ObjectDetectionTab::on_modelComboBox_currentIndexChanged);
+
+    auto ui = this->findChild<Ui::ObjectDetectionTab*>("ui"); // if you keep ui pointer locally, use it instead
+    // Wire UI signals (adjust to your object names)
+    if (auto combo = findChild<QComboBox*>("modelComboBox")) {
+        connect(combo, qOverload<int>(&QComboBox::currentIndexChanged),
+                this, &ObjectDetectionTab::onModelChanged);
+    }
+    if (auto slider = findChild<QSlider*>("confSlider")) {
+        connect(slider, &QSlider::valueChanged, this, &ObjectDetectionTab::onConfidenceChanged);
+    }
 
     if(ui->modelComboBox->count() == 0)
         ui->modelComboBox->addItems({"Dummy (No CV)", "YOLO (later)", "Color (HSV)"});
@@ -76,37 +88,84 @@ ObjectDetectionTab::~ObjectDetectionTab()
     delete ui;
 }
 
+void ObjectDetectionTab::onModelChanged(int idx) {
+    m_model = static_cast<Model>(idx);
+    if (auto log = getDetLogTextEdit())
+        log->appendPlainText(QString("[Det] Model -> %1")
+                                 .arg(idx==0? "Dummy" : idx==1? "YOLO" : "Color(HSV)"));
+}
+
+void ObjectDetectionTab::onConfidenceChanged(int v) {
+    m_confidence = qBound(0, v, 100)/100.0;
+    if (auto log = getDetLogTextEdit())
+        log->appendPlainText(QString("[Det] Confidence -> %1%").arg(int(m_confidence*100)));
+}
+
+void ObjectDetectionTab::onCameraFrame(const QImage& frame) {
+    if (frame.isNull()) return;
+    QImage out;
+
+    switch (m_model) {
+    case Model::Dummy: out = runDummy(frame); break;
+    case Model::Yolo:  out = runYoloStub(frame); break;   // replace later with real YOLO
+    case Model::Color: out = runColorHSV(frame); break;
+    }
+
+    if (auto lbl = getDetectionPreviewLabel())
+        lbl->setPixmap(QPixmap::fromImage(out));
+}
+
 // -------------------------
 // UI event handlers
 // -------------------------
 
 void ObjectDetectionTab::on_startDetectionBtn_clicked()
 {
-     // Connect once to the camera frames (idempotent: disconnect old first)
-    if(m_frameConn)
-         disconnect(m_frameConn);
+    auto mw = mainwindow;                         // you already pass MainWindow* in ctor
+    if (!mw) return;
 
-    auto cam = mainwindow->getCameraWorker();
+    // If no worker yet, start the camera now
+    if (!mw->getCameraWorker()) {
+        mw->startCamera();  // creates m_camWorker, moves to thread, starts it
+    }
 
-    if(!cam){
-        logLine("[Detection] ERROR: Camera worker not available.");
+    // Still nothing? Bail with a clear message
+    if (!mw->getCameraWorker()) {
+        if (auto log = getDetLogTextEdit())
+            log->appendPlainText("[Camera] Camera Worker is not available.");
         return;
     }
 
-    m_frameConn = connect(cam, &CameraWorker::frameReady, this, &ObjectDetectionTab::onFrameReady, Qt::QueuedConnection);
-    mainwindow->getCameraStatusLabel()->setText("ON");
-    logLine("[Detection] Start.");
+    // Ensure we connect to frames exactly once
+    if (!m_frameConn) {
+        m_frameConn = connect(mw->getCameraWorker(), &CameraWorker::frameReady,
+                              this, &ObjectDetectionTab::onFrameReady,
+                              Qt::QueuedConnection);
+    }
+
+    if (auto log = getDetLogTextEdit())
+        log->appendPlainText("[Camera] Start requested.");
+
+    mw->getCameraStatusLabel()->setText("ON");
 }
 
 void ObjectDetectionTab::on_stopDetectionBtn_clicked()
 {
-    if(m_frameConn){
+    auto mw = mainwindow;
+    if (!mw) return;
+
+    // Disconnect frame updates from the (possibly soon-to-be-deleted) worker
+    if (m_frameConn) {
         disconnect(m_frameConn);
-        m_frameConn = QMetaObject::Connection{};
+        m_frameConn = {};
     }
 
-    mainwindow->getCameraStatusLabel()->setText("OFF");
-    logLine("[Detection] Stop.");
+    mw->stopCamera();
+
+    if (auto log = getDetLogTextEdit())
+        log->appendPlainText("[Camera] Stop requested.");
+
+    mw->getCameraStatusLabel()->setText("OFF");
 }
 
 void ObjectDetectionTab::on_confSlider_valueChanged(int value)
@@ -152,63 +211,94 @@ QPushButton *ObjectDetectionTab::getStopDetBtn() const { return ui->stopDetectio
 
 void ObjectDetectionTab::onFrameReady(const QImage &frame)
 {
-    // Defensive: ensure we have valid pixels
-    if (frame.isNull()) return;
+    {
+        if (frame.isNull()) return;
 
-    QImage out;
+        QImage out;
 
-    switch (m_modelIndex) {
-    case 0: // Dummy: just overlay HUD
-        out = drawHUD(frame);
-        break;
-    case 1: // YOLO (later)
-        // For now, show HUD stating YOLO stub
-        out = drawHUD(frame);
-        {
-            QPainter p(&out);
-            p.setRenderHint(QPainter::Antialiasing, true);
-            p.setPen(QPen(Qt::yellow, 2));
-            p.setBrush(Qt::NoBrush);
-            p.drawText(12, 36, "YOLO: not implemented yet");
+        switch (m_modelIndex) {
+        case 0: // Dummy: just overlay HUD
+            out = runDummy(frame);
+            break;
+        case 1: // YOLO (later)
+            out = runYoloStub(frame);
+            break;
+        case 2: // Color (HSV threshold + contours)
+            out = runColorHSV(frame);
+            break;
+        default:
+            out = frame;
+            break;
         }
-        break;
-    case 2: // Color (HSV threshold + contours)
-        out = processColorModel(frame);
-        break;
-    default:
-        out = frame;
-        break;
-    }
 
-    showPixmap(out);
+        showPixmap(out);
 }
 
-QImage ObjectDetectionTab::drawHUD(const QImage &in) const
-{
-    QImage out = in.convertToFormat(QImage::Format_RGB888);
-    QPainter painter(&out);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+// --- Simple HUD (model + confidence) ---
+QImage ObjectDetectionTab::drawHUD(QImage& img, const QString& modelName, double conf) const {
+    QPainter p(&img);
+    p.setRenderHint(QPainter::Antialiasing);
+    const QString text = QString("%1 | conf: %2%").arg(modelName).arg(int(conf*100));
+    QFont f = p.font(); f.setPointSizeF(f.pointSizeF() + 2); f.setBold(true); p.setFont(f);
+    QRect r(10, 10, img.width()*0.6, 28);
+    p.fillRect(r, QColor(0,0,0,120));
+    p.setPen(Qt::white);
+    p.drawText(r.adjusted(6,0,0,0), Qt::AlignVCenter|Qt::AlignLeft, text);
+}
 
-    // Text box background (semi-transparent)
-    auto drawBadge = [&](const QPoint& tl, const QString& text){
-        QFont f = painter.font(); f.setPointSizeF(10.0); painter.setFont(f);
-        QFontMetrics fm(f);
-        const int pad = 6;
-        QRect r = fm.boundingRect(text);
-        r.adjust(-pad, -pad, pad, pad);
-        r.moveTopLeft(tl);
+// --- Dummy: just draw HUD ---
+QImage ObjectDetectionTab::runDummy(const QImage& in) const {
+    QImage out = in.convertToFormat(QImage::Format_RGB888).copy();
+    drawHUD(out, "Dummy", m_confidence);
+    return out;
+}
 
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(0,0,0,128));
-        painter.drawRoundedRect(r, 6, 6);
+// --- YOLO stub: draw banner (so user sees model switched) ---
+QImage ObjectDetectionTab::runYoloStub(const QImage& in) const {
+    QImage out = in.convertToFormat(QImage::Format_RGB888).copy();
+    QPainter p(&out);
+    p.fillRect(QRect(0, out.height()-36, out.width(), 36), QColor(0,0,0,140));
+    p.setPen(Qt::yellow);
+    QFont f = p.font(); f.setBold(true); p.setFont(f);
+    p.drawText(QRect(10, out.height()-34, out.width()-20, 30),
+               Qt::AlignVCenter|Qt::AlignLeft,
+               "YOLO: not implemented yet");
+    drawHUD(out, "YOLO", m_confidence);
+    return out;
+}
 
-        painter.setPen(Qt::white);
-        painter.drawText(r.adjusted(pad, pad, -pad, -pad), Qt::AlignLeft|Qt::AlignVCenter, text);
-    };
+// --- Color(HSV): red detection w/ contours ---
+QImage ObjectDetectionTab::runColorHSV(const QImage& in) const {
+    cv::Mat rgb = qimageToMatRGB(in);              // RGB
+    cv::Mat hsv; cv::cvtColor(rgb, hsv, cv::COLOR_RGB2HSV);
 
-    const QString model = ui->modelComboBox->currentText();
-    drawBadge(QPoint(12, 12), QString("Model: %1 | Conf: %2")
-                                  .arg(model).arg(m_confidence, 0, 'f', 2));
+    // Two red ranges in HSV (wrap-around). Tune with m_conf if you like:
+    int sat = 100; int val = 80; // basic floor
+    cv::Mat m1, m2, mask;
+    cv::inRange(hsv, cv::Scalar(0, sat, val),   cv::Scalar(10, 255, 255), m1);
+    cv::inRange(hsv, cv::Scalar(170, sat, val), cv::Scalar(180, 255, 255), m2);
+    cv::bitwise_or(m1, m2, mask);
+
+    // Morphology to clean noise
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, {5,5});
+    cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);
+    cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
+
+    // Contours
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+    // Draw on RGB image
+    for (auto& c : contours) {
+        if (cv::contourArea(c) < 200.0) continue; // ignore tiny blobs
+        cv::Rect box = cv::boundingRect(c);
+        cv::rectangle(rgb, box, cv::Scalar(0,255,0), 2);
+        cv::putText(rgb, "RED", {box.x, std::max(0, box.y-5)},
+                    cv::FONT_HERSHEY_SIMPLEX, 0.6, {0,255,0}, 2);
+    }
+
+    QImage out = matToQImageRGB(rgb);
+    drawHUD(out, "Color(HSV)", m_confidence);
     return out;
 }
 

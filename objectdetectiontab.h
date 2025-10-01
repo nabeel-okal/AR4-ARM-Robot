@@ -1,17 +1,17 @@
-#ifndef OBJECTDETECTIONTAB_H
-#define OBJECTDETECTIONTAB_H
+#pragma once
 
 #include <QWidget>
-#include <QTimer>
-#include <QLabel>
-#include <QComboBox>
-#include <QSlider>
-#include <QPlainTextEdit>
-#include <QPushButton>
 #include <QMetaObject>
 #include <QImage>
 
+#include "cameraworker.h"
+
 class MainWindow;
+class QLabel;
+class QPlainTextEdit;
+class QComboBox;
+class QSlider;
+class QPushButton;
 
 namespace Ui {
 class ObjectDetectionTab;
@@ -22,7 +22,7 @@ class ObjectDetectionTab : public QWidget
     Q_OBJECT
 
 public:
-    explicit ObjectDetectionTab(QWidget *parent, MainWindow *mainWindow);
+    explicit ObjectDetectionTab(QWidget *parent, MainWindow *mw);
     ~ObjectDetectionTab();
 
     void on_startDetectionBtn_clicked();
@@ -41,27 +41,39 @@ public:
 
 
     // Variables
-    QTimer m_detectionTimer;       // Unused now: we're frame-driven
     double m_confidence = 0.50;   // 0.0–1.0
     int    m_modelIndex = 0;      // which model (for later)
 
-private slots:
+public slots:
     void onFrameReady(const QImage& frame);
+
+    void onCameraFrame(const QImage& frame);
+    void onModelChanged(int index);
+    void onConfidenceChanged(int v);
+
 
 private:
     Ui::ObjectDetectionTab *ui;
     MainWindow *mainwindow;
 
+    enum class Model { Dummy = 0, Yolo = 1, Color = 2 };
+
+    QImage runDummy(const QImage& in) const;
+    QImage runYoloStub(const QImage& in) const;
+    QImage runColorHSV(const QImage& in) const;
+
+
     // Manage connect/disconnect to camera frames
     QMetaObject::Connection m_frameConn {};
 
     // Rendering helpers
-    QImage drawHUD(const QImage& in) const;
+    QImage drawHUD(QImage& img, const QString& modelName, double conf) const;
     QImage processColorModel(const QImage& in) const;
 
     // Small utilities
     void showPixmap(const QImage& img) const;
     void logLine(const QString& s) const;
-};
 
-#endif // OBJECTDETECTIONTAB_H
+    MainWindow* m_mainWindow = nullptr;
+    Model m_model = Model::Dummy;
+};

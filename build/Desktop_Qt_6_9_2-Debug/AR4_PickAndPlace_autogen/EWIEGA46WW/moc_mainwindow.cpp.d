@@ -1,20 +1,6 @@
 /home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/AR4_PickAndPlace_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/mainwindow.h \
   /home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/AR4_PickAndPlace_autogen/moc_predefs.h \
-  /mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/calibrationtab.h \
-  /mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/cameraworker.h \
-  /mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/robotcontrol.h \
-  /mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/robotcontrollerworker.h \
-  /mnt/nabeel_data/dev/projects/Qt_Projects/AR4_PickAndPlace/settings.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QAtomicInt \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QDebug \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QIODevice \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QObject \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QRandomGenerator \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QScopedPointer \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSet \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSettings \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QThread \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QTimer \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q17memory.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20functional.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20iterator.h \
@@ -22,8 +8,6 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20type_traits.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20utility.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q23utility.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qabstractitemmodel.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qalgorithms.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qanystringview.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qarraydata.h \
@@ -33,7 +17,6 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qatomic.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qatomic_cxx11.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbasicatomic.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbasictimer.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbindingstorage.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbytearray.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
@@ -56,7 +39,6 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qdebug.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qelapsedtimer.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qendian.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qeventloop.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qexceptionhandling.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qflags.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qfloat16.h \
@@ -68,14 +50,12 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qglobalstatic.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qhash.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qhashfunctions.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qiodevice.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qiodevicebase.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qiterable.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qiterator.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qlatin1stringview.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qline.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qlist.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qlocale.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qlogging.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qmalloc.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qmap.h \
@@ -94,16 +74,11 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qpair.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qpoint.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qprocessordetection.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qproperty.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qpropertyprivate.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrandom.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrect.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrefcount.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qregularexpression.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qscopedpointer.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qscopeguard.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qset.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qsettings.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qshareddata.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qshareddata_impl.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qsharedpointer.h \
@@ -138,7 +113,6 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtextstream.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtformat_impl.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qthread.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtimer.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtmetamacros.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtnoop.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
@@ -149,15 +123,12 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtversionchecks.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtypeinfo.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtypes.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qurl.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qutf8stringview.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qvariant.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qvarlengtharray.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qversiontagging.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qxptype_traits.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qyieldcpu.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/QImage \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/QPixmap \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qaction.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qbitmap.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qbrush.h \
@@ -172,51 +143,20 @@
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qkeysequence.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpaintdevice.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpalette.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpicture.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpixelformat.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpixmap.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpolygon.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qregion.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qrgb.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qrgba64.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextdocument.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtgui-config.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtguiexports.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtguiglobal.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtransform.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qvalidator.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qwindowdefs.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/QSerialPort \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qserialport.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qserialportglobal.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qtserialportexports.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QComboBox \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QLabel \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QMainWindow \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QMessageBox \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QPushButton \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QSlider \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QSpinBox \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QWidget \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractslider.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qcombobox.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qdialog.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qframe.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qlabel.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qmainwindow.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qmessagebox.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qpushbutton.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qrubberband.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qsizepolicy.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qslider.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qspinbox.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qstyle.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qstyleoption.h \
-  /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtabbar.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtabwidget.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
   /mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
@@ -240,19 +180,15 @@
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_futex.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
   /usr/include/c++/13/bits/basic_string.tcc \
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/deque.tcc \
   /usr/include/c++/13/bits/enable_special_members.h \
   /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
@@ -265,15 +201,9 @@
   /usr/include/c++/13/bits/hashtable_policy.h \
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
   /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
@@ -281,15 +211,11 @@
   /usr/include/c++/13/bits/nested_exception.h \
   /usr/include/c++/13/bits/new_allocator.h \
   /usr/include/c++/13/bits/node_handle.h \
-  /usr/include/c++/13/bits/ostream.tcc \
   /usr/include/c++/13/bits/ostream_insert.h \
   /usr/include/c++/13/bits/parse_numbers.h \
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
-  /usr/include/c++/13/bits/random.h \
-  /usr/include/c++/13/bits/random.tcc \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
@@ -297,7 +223,6 @@
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/specfun.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -306,7 +231,6 @@
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_deque.h \
   /usr/include/c++/13/bits/stl_function.h \
   /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
@@ -318,7 +242,6 @@
   /usr/include/c++/13/bits/stl_multiset.h \
   /usr/include/c++/13/bits/stl_numeric.h \
   /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_queue.h \
   /usr/include/c++/13/bits/stl_raw_storage_iter.h \
   /usr/include/c++/13/bits/stl_relops.h \
   /usr/include/c++/13/bits/stl_set.h \
@@ -343,13 +266,11 @@
   /usr/include/c++/13/cassert \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/cfloat \
   /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
   /usr/include/c++/13/compare \
-  /usr/include/c++/13/complex \
   /usr/include/c++/13/condition_variable \
   /usr/include/c++/13/cstddef \
   /usr/include/c++/13/cstdint \
@@ -358,12 +279,9 @@
   /usr/include/c++/13/cstring \
   /usr/include/c++/13/ctime \
   /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/deque \
   /usr/include/c++/13/exception \
-  /usr/include/c++/13/experimental/source_location \
   /usr/include/c++/13/ext/aligned_buffer.h \
   /usr/include/c++/13/ext/alloc_traits.h \
   /usr/include/c++/13/ext/atomicity.h \
@@ -374,32 +292,23 @@
   /usr/include/c++/13/functional \
   /usr/include/c++/13/future \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
-  /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
   /usr/include/c++/13/list \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/map \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/mutex \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numeric \
   /usr/include/c++/13/optional \
-  /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/glue_numeric_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/queue \
-  /usr/include/c++/13/random \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/set \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
@@ -431,111 +340,10 @@
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
   /usr/include/locale.h \
-  /usr/include/math.h \
-  /usr/include/opencv4/opencv2/calib3d.hpp \
-  /usr/include/opencv4/opencv2/core.hpp \
-  /usr/include/opencv4/opencv2/core/affine.hpp \
-  /usr/include/opencv4/opencv2/core/async.hpp \
-  /usr/include/opencv4/opencv2/core/base.hpp \
-  /usr/include/opencv4/opencv2/core/bufferpool.hpp \
-  /usr/include/opencv4/opencv2/core/check.hpp \
-  /usr/include/opencv4/opencv2/core/cuda.hpp \
-  /usr/include/opencv4/opencv2/core/cuda.inl.hpp \
-  /usr/include/opencv4/opencv2/core/cuda_types.hpp \
-  /usr/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
-  /usr/include/opencv4/opencv2/core/cvdef.h \
-  /usr/include/opencv4/opencv2/core/cvstd.hpp \
-  /usr/include/opencv4/opencv2/core/cvstd.inl.hpp \
-  /usr/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
-  /usr/include/opencv4/opencv2/core/fast_math.hpp \
-  /usr/include/opencv4/opencv2/core/hal/interface.h \
-  /usr/include/opencv4/opencv2/core/mat.hpp \
-  /usr/include/opencv4/opencv2/core/mat.inl.hpp \
-  /usr/include/opencv4/opencv2/core/matx.hpp \
-  /usr/include/opencv4/opencv2/core/neon_utils.hpp \
-  /usr/include/opencv4/opencv2/core/operations.hpp \
-  /usr/include/opencv4/opencv2/core/optim.hpp \
-  /usr/include/opencv4/opencv2/core/ovx.hpp \
-  /usr/include/opencv4/opencv2/core/persistence.hpp \
-  /usr/include/opencv4/opencv2/core/saturate.hpp \
-  /usr/include/opencv4/opencv2/core/traits.hpp \
-  /usr/include/opencv4/opencv2/core/types.hpp \
-  /usr/include/opencv4/opencv2/core/utility.hpp \
-  /usr/include/opencv4/opencv2/core/version.hpp \
-  /usr/include/opencv4/opencv2/core/vsx_utils.hpp \
-  /usr/include/opencv4/opencv2/dnn.hpp \
-  /usr/include/opencv4/opencv2/dnn/dict.hpp \
-  /usr/include/opencv4/opencv2/dnn/dnn.hpp \
-  /usr/include/opencv4/opencv2/dnn/dnn.inl.hpp \
-  /usr/include/opencv4/opencv2/dnn/layer.hpp \
-  /usr/include/opencv4/opencv2/dnn/utils/inference_engine.hpp \
-  /usr/include/opencv4/opencv2/dnn/version.hpp \
-  /usr/include/opencv4/opencv2/features2d.hpp \
-  /usr/include/opencv4/opencv2/flann.hpp \
-  /usr/include/opencv4/opencv2/flann/all_indices.h \
-  /usr/include/opencv4/opencv2/flann/allocator.h \
-  /usr/include/opencv4/opencv2/flann/any.h \
-  /usr/include/opencv4/opencv2/flann/autotuned_index.h \
-  /usr/include/opencv4/opencv2/flann/composite_index.h \
-  /usr/include/opencv4/opencv2/flann/config.h \
-  /usr/include/opencv4/opencv2/flann/defines.h \
-  /usr/include/opencv4/opencv2/flann/dist.h \
-  /usr/include/opencv4/opencv2/flann/dynamic_bitset.h \
-  /usr/include/opencv4/opencv2/flann/flann_base.hpp \
-  /usr/include/opencv4/opencv2/flann/general.h \
-  /usr/include/opencv4/opencv2/flann/ground_truth.h \
-  /usr/include/opencv4/opencv2/flann/heap.h \
-  /usr/include/opencv4/opencv2/flann/hierarchical_clustering_index.h \
-  /usr/include/opencv4/opencv2/flann/index_testing.h \
-  /usr/include/opencv4/opencv2/flann/kdtree_index.h \
-  /usr/include/opencv4/opencv2/flann/kdtree_single_index.h \
-  /usr/include/opencv4/opencv2/flann/kmeans_index.h \
-  /usr/include/opencv4/opencv2/flann/linear_index.h \
-  /usr/include/opencv4/opencv2/flann/logger.h \
-  /usr/include/opencv4/opencv2/flann/lsh_index.h \
-  /usr/include/opencv4/opencv2/flann/lsh_table.h \
-  /usr/include/opencv4/opencv2/flann/matrix.h \
-  /usr/include/opencv4/opencv2/flann/miniflann.hpp \
-  /usr/include/opencv4/opencv2/flann/nn_index.h \
-  /usr/include/opencv4/opencv2/flann/params.h \
-  /usr/include/opencv4/opencv2/flann/random.h \
-  /usr/include/opencv4/opencv2/flann/result_set.h \
-  /usr/include/opencv4/opencv2/flann/sampling.h \
-  /usr/include/opencv4/opencv2/flann/saving.h \
-  /usr/include/opencv4/opencv2/flann/timer.h \
-  /usr/include/opencv4/opencv2/highgui.hpp \
-  /usr/include/opencv4/opencv2/imgcodecs.hpp \
-  /usr/include/opencv4/opencv2/imgproc.hpp \
-  /usr/include/opencv4/opencv2/imgproc/segmentation.hpp \
-  /usr/include/opencv4/opencv2/ml.hpp \
-  /usr/include/opencv4/opencv2/ml/ml.inl.hpp \
-  /usr/include/opencv4/opencv2/objdetect.hpp \
-  /usr/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp \
-  /usr/include/opencv4/opencv2/objdetect/face.hpp \
-  /usr/include/opencv4/opencv2/opencv.hpp \
-  /usr/include/opencv4/opencv2/opencv_modules.hpp \
-  /usr/include/opencv4/opencv2/photo.hpp \
-  /usr/include/opencv4/opencv2/stitching.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/blenders.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/camera.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/matchers.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/motion_estimators.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/seam_finders.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/util.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/util_inl.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/warpers.hpp \
-  /usr/include/opencv4/opencv2/stitching/detail/warpers_inl.hpp \
-  /usr/include/opencv4/opencv2/stitching/warpers.hpp \
-  /usr/include/opencv4/opencv2/video.hpp \
-  /usr/include/opencv4/opencv2/video/background_segm.hpp \
-  /usr/include/opencv4/opencv2/video/tracking.hpp \
-  /usr/include/opencv4/opencv2/videoio.hpp \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -546,7 +354,6 @@
   /usr/include/strings.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
-  /usr/include/wctype.h \
   /usr/include/x86_64-linux-gnu/asm/errno.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
@@ -556,19 +363,10 @@
   /usr/include/x86_64-linux-gnu/bits/errno.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
   /usr/include/x86_64-linux-gnu/bits/local_lim.h \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
   /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
@@ -620,7 +418,6 @@
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
@@ -628,26 +425,16 @@
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/float.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h

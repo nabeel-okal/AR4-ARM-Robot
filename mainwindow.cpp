@@ -2,8 +2,16 @@
 #include "ui_mainwindow.h"
 
 #include <QSerialPortInfo>
+#include <QMetaObject>
+#include <QDebug>
 
 #include "objectdetectiontab.h"
+#include "calibrationtab.h"
+#include "robotcontrol.h"
+#include "settings.h"
+#include "cameraworker.h"
+#include "robotcontrollerworker.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,63 +19,94 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Add Tabs (your separate classes for each tab)
-    obDetTab = new ObjectDetectionTab(this, this);
-    calTab = new CalibrationTab(this);
-    robotControl = new RobotControl(this);
-    settings = new Settings(this);
-    m_robot = new RobotControllerWorker();
+    createTabs();
+    setupRobotWorker();
+    connectSignals();
 
-    ui->tabWidget->addTab(obDetTab, "Object Detection");
-    ui->tabWidget->addTab(calTab, "Calibration");
-    ui->tabWidget->addTab(robotControl, "Robot Control");
-    ui->tabWidget->addTab(settings, "Settings");
-
-    init();
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
 {
     stopCamera();       // ensures thread is stopped safely
+
+    // Stop robot thread safely (worker will be deleted via deleteLater)
+    if (m_robot) {
+        m_robotThread.quit();
+        m_robotThread.wait(200);
+        m_robot = nullptr;
+    }
+
     delete ui;
 }
 
-void MainWindow::init()
+// -----------------------------------------------------------------------------
+// Organization helpers: create UI tabs & workers
+// -----------------------------------------------------------------------------
+
+void MainWindow::createTabs()
 {
-    // Default to first tab
-    ui->tabWidget->setCurrentIndex(0);
+    // Create tabs (pass 'this' as MainWindow* where needed)
+    obDetTab      = new ObjectDetectionTab(this, this);
+    calTab        = new CalibrationTab(this);
+    robotControl  = new RobotControl(this);
+    settings      = new Settings(this);
 
-    // Signal connections from RobotControl Tab
+    // Create robot worker instance (moved to thread in setupRobotWorker)
+    m_robot = new RobotControllerWorker();
 
+    // Add tabs to UI
+    ui->tabWidget->addTab(obDetTab,      tr("Object Detection"));
+    ui->tabWidget->addTab(calTab,        tr("Calibration"));
+    ui->tabWidget->addTab(robotControl,  tr("Robot Control"));
+    ui->tabWidget->addTab(settings,      tr("Settings"));
+}
+
+void MainWindow::setupRobotWorker()
+{
+    // Move robot worker to its own thread
+    m_robot->moveToThread(&m_robotThread);
+
+    // Delete worker when thread finishes
+    connect(&m_robotThread, &QThread::finished, m_robot, &QObject::deleteLater);
+
+    // Start the thread (you'll invoke worker slots via Qt::QueuedConnection)
+    m_robotThread.start();
+}
+
+// -----------------------------------------------------------------------------
+// All signal/slot wiring in one place (safer, easier to maintain)
+// -----------------------------------------------------------------------------
+
+void MainWindow::connectSignals()
+{
+    // -------------------------
+    // RobotControl -> MainWindow (UI logs and commands)
+    // -------------------------
     connect(robotControl, &RobotControl::driveRequested, this,
-            [this](RobotControl::Direction dir, int speed){
-        // TODO: replace with AR4 SDK calls (cartesian/joint jog)
-        QString d = (dir==RobotControl::Forward ? "FWD" :
-                         dir==RobotControl::Backward ? "BWD" :
-                         dir==RobotControl::Right ? "RIGHT" : "LEFT");
+            [this](RobotControl::Direction dir, int speed) {
+                const QString d = (dir==RobotControl::Forward ? "FWD" :
+                                       dir==RobotControl::Backward ? "BWD" :
+                                       dir==RobotControl::Right ? "RIGHT" : "LEFT");
+                if (auto log = robotControl->getTextRobotLog())
+                    obDetTab->getDetLogTextEdit()->append(QString("[CMD] Drive %1 @ %2%").arg(d).arg(speed));
+            });
+
+    connect(robotControl, &RobotControl::stopRequested, this, [this](){
+        if (auto log = robotControl->getTextRobotLog()) log->append("[CMD] Stop");
+        QMetaObject::invokeMethod(m_robot, "stop", Qt::QueuedConnection);
+    });
+
+    connect(robotControl, &RobotControl::speedChanged, this, [this](int sp){
         if (auto log = robotControl->getTextRobotLog())
-            log->append(QString("[CMD] Drive %1 @ %2%").arg(d).arg(speed));
+            log->append(QString("[CMD] Speed -> %1%").arg(sp));
+        QMetaObject::invokeMethod(m_robot, "setSpeedPercent", Qt::QueuedConnection, Q_ARG(int, sp));
     });
 
-    connect(robotControl, &RobotControl::stopRequested, this,
-            [this](){
-                // TODO: AR4: stop motion / override velocity to 0
-                if (auto log = robotControl->getTextRobotLog())
-                    log->append("[CMD] Stop");
-    });
-
-    connect(robotControl, &RobotControl::speedChanged, this,
-            [this](int sp){
-                // TODO: AR4: set global speed scale / jog speed
-                if (auto log = robotControl->getTextRobotLog())
-                    log->append(QString("[CMD] Speed -> %1%").arg(sp));
-    });
-
-    // Connect motorEnabled & mode buttons
     connect(robotControl, &RobotControl::motorsEnabledChanged, this, [this](bool on){
         if (auto log = robotControl->getTextRobotLog())
             log->append(QString("[CMD] Motors %1").arg(on ? "Enable" : "Disable"));
-        // TODO: send enable/disable command to AR4 here
+        QMetaObject::invokeMethod(m_robot, "enableMotors", Qt::QueuedConnection, Q_ARG(bool, on));
     });
 
     connect(robotControl, &RobotControl::modeChanged, this, [this](RobotControl::Mode m){
@@ -75,13 +114,41 @@ void MainWindow::init()
             log->append(QString("[CMD] Mode -> %1").arg(m==RobotControl::Joint ? "Joint" : "Planar"));
     });
 
-    // RobotControllerClass connections
-    m_robot->moveToThread(&m_robotThread);
+    // Drive requested -> forward to worker
+    connect(robotControl, &RobotControl::driveRequested, this,
+            [this](RobotControl::Direction dir, int /*speedPercent*/){
+                const bool jointMode = (robotControl->mode() == RobotControl::Joint);
 
-    connect(&m_robotThread, &QThread::finished, m_robot, &QObject::deleteLater);
-    m_robotThread.start();
+                if (jointMode) {
+                    const int joint = robotControl->selectedJoint(); // 1..6
+                    double v = 10.0; // deg/s nominal
+                    if (dir == RobotControl::Backward) v = -v;
 
-    // logs from worker -> RobotControl log box
+                    if (dir == RobotControl::Left || dir == RobotControl::Right) {
+                        // Use base joint (J1) for left/right
+                        const int j = 1;
+                        const double vbase = (dir == RobotControl::Right) ? +v : -v;
+                        QMetaObject::invokeMethod(m_robot, "jogJoint", Qt::QueuedConnection,
+                                                  Q_ARG(int, j), Q_ARG(double, vbase));
+                        return;
+                    }
+                    QMetaObject::invokeMethod(m_robot, "jogJoint", Qt::QueuedConnection,
+                                              Q_ARG(int, joint), Q_ARG(double, v));
+                } else {
+                    // Planar XYZ mode
+                    char axis = robotControl->selectedAxis(); // 'X','Y','Z'
+                    double v  = 50.0; // mm/s nominal
+                    if (axis == 'Z') {
+                        v = (dir == RobotControl::Forward ? +v : (dir == RobotControl::Backward ? -v : 0));
+                    } // X/Y sign handled in worker via velocity or your own mapping
+                    QMetaObject::invokeMethod(m_robot, "jogPlanar", Qt::QueuedConnection,
+                                              Q_ARG(char, axis), Q_ARG(double, v));
+                }
+            });
+
+    // -------------------------
+    // Robot worker -> RobotControl (logs & connection state)
+    // -------------------------
     connect(m_robot, &RobotControllerWorker::info, this, [this](const QString& s){
         if (auto log = robotControl->getTextRobotLog()) log->append("[INFO] " + s);
     });
@@ -91,140 +158,43 @@ void MainWindow::init()
     connect(m_robot, &RobotControllerWorker::rxLine, this, [this](const QString& s){
         if (auto log = robotControl->getTextRobotLog()) log->append("[RX] " + s);
     });
-
-    // track connection state → enable/disable controls
     connect(m_robot, &RobotControllerWorker::connectedChanged, this, [this](bool ok){
         robotControl->setConnected(ok);
     });
 
-    // Fill serial port list and wire Connect button
-    populateSerialPorts();
-    // connect(robotControl->findChild<QPushButton*>("btnConnect"), &QPushButton::clicked,
-    //         this, [this](){
-    //             auto portBox = robotControl->findChild<QComboBox*>("comboPort");
-    //             auto btn = robotControl->findChild<QPushButton*>("btnConnect");
-    //             if (!portBox || !btn) return;
-    //             if (btn->text() == "Connect") {
-    //                 const QString port = portBox->currentText();
-    //                 // call into worker thread
-    //                 QMetaObject::invokeMethod(m_robot, "connectTo",
-    //                                           Qt::QueuedConnection,
-    //                                           Q_ARG(QString, port),
-    //                                           Q_ARG(int, 115200));
-    //                 btn->setText("Disconnect");
-    //             } else {
-    //                 QMetaObject::invokeMethod(m_robot, "disconnectFrom", Qt::QueuedConnection);
-    //                 btn->setText("Connect");
-    //             }
-    // });
-
-    // Speed scale: your UI emits 0..100; worker applies final scaling again.
-    // We just forward the percent:
-    connect(robotControl, &RobotControl::speedChanged, this, [this](int sp){
-        QMetaObject::invokeMethod(m_robot, "setSpeedPercent", Qt::QueuedConnection, Q_ARG(int, sp));
-    });
-
-    // Deadman toggle:
-    connect(robotControl, &RobotControl::motorsEnabledChanged, this, [this](bool on){
-        QMetaObject::invokeMethod(m_robot, "enableMotors", Qt::QueuedConnection, Q_ARG(bool, on));
-    });
-
-    // STOP (button/keys/releases):
-    connect(robotControl, &RobotControl::stopRequested, this, [this](){
-        QMetaObject::invokeMethod(m_robot, "stop", Qt::QueuedConnection);
-    });
-
-    // DRIVE (button/keys pressed):
-    connect(robotControl, &RobotControl::driveRequested, this,
-            [this](RobotControl::Direction dir, int /*speedPercent*/){
-
-                // Decide velocity sign and target (joint/axis) from current mode
-                const bool jointMode = (robotControl->mode() == RobotControl::Joint);
-
-                if (jointMode) {
-                    const int joint = robotControl->selectedJoint(); // 1..6
-                    // simple mapping: Forward = +, Backward = -, Left/Right rotate base (J1)
-                    double v = 10.0; // deg/s nominal; tweak as you like
-                    if (dir == RobotControl::Backward) v = -v;
-                    if (dir == RobotControl::Left || dir == RobotControl::Right) {
-                        // If user pressed left/right, override to base joint (J1)
-                        // Left = - , Right = +
-                        int j = 1;
-                        double vbase = (dir == RobotControl::Right) ? +v : -v;
-                        QMetaObject::invokeMethod(m_robot, "jogJoint", Qt::QueuedConnection,
-                                                  Q_ARG(int, j), Q_ARG(double, vbase));
-                        return;
-                    }
-                    QMetaObject::invokeMethod(m_robot, "jogJoint", Qt::QueuedConnection,
-                                              Q_ARG(int, joint), Q_ARG(double, v));
-                } else {
-                    // Planar XYZ: map Forward/Backward to +Y/-Y, Left/Right to -X/+X
-                    char axis = 'Y';
-                    double v = 50.0; // mm/s nominal
-                    switch (dir) {
-                    case RobotControl::Forward:  axis = 'Y'; v = +v; break;
-                    case RobotControl::Backward: axis = 'Y'; v = -v; break;
-                    case RobotControl::Left:     axis = 'X'; v = -v; break;
-                    case RobotControl::Right:    axis = 'X'; v = +v; break;
-                    }
-                    // If user picked a specific axis in UI, use that instead:
-                    axis = robotControl->selectedAxis();
-                    // Flip sign based on direction if axis == X or Y; for Z, map Forward/Backward to +Z/-Z
-                    if (axis == 'Z') v = (dir == RobotControl::Forward ? +v : (dir == RobotControl::Backward ? -v : 0));
-                    else {
-                        // already set above for X/Y
-                    }
-                    QMetaObject::invokeMethod(m_robot, "jogPlanar", Qt::QueuedConnection,
-                                              Q_ARG(char, axis), Q_ARG(double, v));
-                }
-            });
-
-    // Settings connections
-    connect(settings, &Settings::robotStatusMessage,
-            this, [this](const QString msg) {
-        if (msg == "ON") {
-            ui->robotStatusLabel->setText(msg);
-            ui->robotStatusLabel->setStyleSheet("background-color: green;");
-        } else {
-            ui->robotStatusLabel->setText(msg);
-            ui->robotStatusLabel->setStyleSheet("background-color: red;");
-        }
-    });
-
-    // Settings -> Worker (queued, thread-safe)
+    // -------------------------
+    // Settings <-> Worker wiring
+    // -------------------------
     connect(settings, &Settings::requestConnectSerial, m_robot, &RobotControllerWorker::connectTo, Qt::QueuedConnection);
-    connect(settings, &Settings::requestDisconnect, m_robot, &RobotControllerWorker::disconnectFrom, Qt::QueuedConnection);
-    connect(settings, &Settings::requestPing, m_robot, &RobotControllerWorker::ping, Qt::QueuedConnection);
+    connect(settings, &Settings::requestDisconnect,    m_robot, &RobotControllerWorker::disconnectFrom, Qt::QueuedConnection);
+    connect(settings, &Settings::requestPing,          m_robot, &RobotControllerWorker::ping, Qt::QueuedConnection);
 
-    // Worker -> Settings (status + logs)
     connect(m_robot, &RobotControllerWorker::connectedChanged,
             settings, &Settings::onRobotConnectedChanged, Qt::QueuedConnection);
 
-    /* connect(m_robotWorker, &RobotControllerWorker::info,
-            settingsTab, &Settings::onRobotTx, Qt::QueuedConnection);
+    // Settings status message -> main window label (simple green/red)
+    connect(settings, &Settings::robotStatusMessage, this, [this](const QString msg){
+        ui->robotStatusLabel->setText(msg);
+        ui->robotStatusLabel->setStyleSheet(msg == "ON" ? "background-color: green;"
+                                                        : "background-color: red;");
+    });
 
-    connect(m_robotWorker, &RobotControllerWorker::error,
-            settingsTab, &Settings::onRobotError, Qt::QueuedConnection);
-
-    connect(m_robotWorker, &RobotControllerWorker::rxLine,
-            settingsTab, &Settings::onRobotRx, Qt::QueuedConnection); */
+    // -------------------------
+    // Initial population of serial ports in RobotControl (if it has comboPort)
+    // -------------------------
+    // populateSerialPorts();
 }
 
-void MainWindow::setCameraStatus(bool connected)
-{
-    if (connected) {
-        ui->cameraStatusLabel->setStyleSheet("background-color: green; border-radius: 10px;");
-    } else {
-        ui->cameraStatusLabel->setStyleSheet("background-color: red; border-radius: 10px;");
-    }
-}
+// -----------------------------------------------------------------------------
+// Camera control: start/stop / wiring to CameraWorker
+// -----------------------------------------------------------------------------
 
 void MainWindow::startCamera()
 {
     if (m_cameraRunning) return;
 
-    // Camera params from Settings tab (fallbacks if not present)
-    const int camIndex = settings && settings->getCamIndexSpinBox()
+    // Camera params derived from Settings tab (with fallbacks)
+    const int camIndex = (settings && settings->getCamIndexSpinBox())
                              ? settings->getCamIndexSpinBox()->value()
                              : 0;
 
@@ -236,46 +206,45 @@ void MainWindow::startCamera()
         h = parts.value(1).toInt();
     }
 
-    // Create worker and move to thread
+    // Create camera worker and move to its thread
     m_camWorker = new CameraWorker(camIndex, w, h);
     m_camWorker->moveToThread(&m_camThread);
 
-    // ... after cam worker is created and moved to m_camThread
-    connect(calTab, &CalibrationTab::exposureNormChanged,  m_camWorker, &CameraWorker::setExposureNorm);
+    // Calibration sliders -> camera worker (live tuning)
+    connect(calTab, &CalibrationTab::exposureNormChanged,   m_camWorker, &CameraWorker::setExposureNorm);
     connect(calTab, &CalibrationTab::brightnessNormChanged, m_camWorker, &CameraWorker::setBrightnessNorm);
     connect(calTab, &CalibrationTab::contrastNormChanged,   m_camWorker, &CameraWorker::setContrastNorm);
 
-    // Lifetime
+    // Cleanup on thread finish
     connect(&m_camThread, &QThread::finished, m_camWorker, &QObject::deleteLater);
 
-    // Frame → preview label (GUI thread)
-    connect(m_camWorker, &CameraWorker::frameReady, this, [this](const QImage& img){
-        if (!img.isNull())
-            obDetTab->getDetectionPreviewLabel()->setPixmap(QPixmap::fromImage(img));
-    });
+    // Frame -> ObjectDetectionTab preview label
+    connect(m_camWorker, &CameraWorker::frameReady,
+            obDetTab,     &ObjectDetectionTab::onFrameReady,
+            Qt::QueuedConnection);
 
-    // Errors → log
+    // Errors -> ObjectDetectionTab log
     connect(m_camWorker, &CameraWorker::error, this, [this](const QString& msg){
-        obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] " + msg);
+        if (obDetTab && obDetTab->getDetLogTextEdit())
+            obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] " + msg);
     });
 
-    // Thread start → worker start
+    // Start the worker when the thread starts
     connect(&m_camThread, &QThread::started, m_camWorker, &CameraWorker::start);
 
     // Go!
     m_camThread.start();
     m_cameraRunning = true;
 
-    // (Optional) UI feedback
-    obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] Started.");
-    setCameraStatus(true);
+    if (obDetTab && obDetTab->getDetLogTextEdit())
+        obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] Started.");
+    setupCameraStatus(true);
 }
 
 void MainWindow::stopCamera()
 {
     if (!m_cameraRunning) return;
 
-    // Ask worker to stop, then stop the thread
     if (m_camWorker) m_camWorker->stop();
     m_camThread.quit();
     m_camThread.wait();
@@ -284,36 +253,70 @@ void MainWindow::stopCamera()
     m_camWorker = nullptr;
 
     // Clear preview (optional)
-    QPixmap blank(obDetTab->getDetectionPreviewLabel()->size());
-    blank.fill(Qt::black);
-    obDetTab->getDetectionPreviewLabel()->setPixmap(blank);
+    if (obDetTab && obDetTab->getDetectionPreviewLabel()) {
+        QPixmap blank(obDetTab->getDetectionPreviewLabel()->size());
+        blank.fill(Qt::black);
+        obDetTab->getDetectionPreviewLabel()->setPixmap(blank);
+    }
 
-    obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] Stopped.");
-    setCameraStatus(false);
+    if (obDetTab && obDetTab->getDetLogTextEdit())
+        obDetTab->getDetLogTextEdit()->appendPlainText("[Camera] Stopped.");
+    setupCameraStatus(false);
+}
+
+// -----------------------------------------------------------------------------
+// Misc helpers
+// -----------------------------------------------------------------------------
+
+// void MainWindow::populateSerialPorts()
+// {
+//     auto portBox = robotControl->findChild<QComboBox*>("comboPort");
+//     if (!portBox) return;
+//     portBox->clear();
+//     for (const QSerialPortInfo& info : QSerialPortInfo::availablePorts()) {
+//         portBox->addItem(info.systemLocation()); // e.g., /dev/ttyUSB0
+//     }
+// }
+
+void MainWindow::updateDetectionFrame()
+{
+    // Legacy helper (kept): render a blank canvas
+    if (!obDetTab || !obDetTab->getDetectionPreviewLabel()) return;
+
+    const QSize canvasSize =
+        obDetTab->getDetectionPreviewLabel()->size().boundedTo(QSize(1280, 720));
+    if (canvasSize.isEmpty()) return;
+
+    QPixmap canvas(canvasSize);
+    canvas.fill(Qt::black);
+    obDetTab->getDetectionPreviewLabel()->setPixmap(canvas);
+}
+
+void MainWindow::setupCameraStatus(bool connected)
+{
+    ui->cameraStatusLabel->setStyleSheet(
+        connected
+            ? "background-color: green; border-radius: 10px;"
+            : "background-color: red; border-radius: 10px;");
 }
 
 void MainWindow::populateSerialPorts()
 {
+    // Prefer: robotControl->getPortCombo()
     auto portBox = robotControl->findChild<QComboBox*>("comboPort");
-    if (!portBox) return;
+    if (!portBox) {
+        qDebug() << "RobotControl UI has no 'comboPort'; skipping populateSerialPorts().";
+        return;
+    }
     portBox->clear();
     for (const QSerialPortInfo& info : QSerialPortInfo::availablePorts()) {
         portBox->addItem(info.systemLocation()); // e.g., /dev/ttyUSB0
     }
 }
 
-void MainWindow::updateDetectionFrame()
-{
-    // Create a blank canvas for testing layout until real camera is wired
-    const QSize canvasSize = obDetTab->getDetectionPreviewLabel()->size().boundedTo(QSize(1280, 720));
-    if (canvasSize.isEmpty()) return;
-
-    QPixmap canvas(canvasSize);
-    canvas.fill(Qt::black);
-
-    obDetTab->getDetectionPreviewLabel()->setPixmap(canvas);
-}
+// -----------------------------------------------------------------------------
+// Public getters (used by tabs)
+// -----------------------------------------------------------------------------
 
 QLabel *MainWindow::getCameraStatusLabel() const { return ui->cameraStatusLabel; }
-
 CameraWorker *MainWindow::getCameraWorker() const { return m_camWorker; }

@@ -266,20 +266,13 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/settings.cpp \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/settings.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QAtomicInt \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QDebug \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QIODevice \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QList \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QMetaObject \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QObject \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QRandomGenerator \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QRect \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QScopedPointer \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSet \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSettings \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSize \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QSizeF \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QThread \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/QTimer \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q17memory.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20functional.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20iterator.h \
@@ -287,7 +280,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20type_traits.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q20utility.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/q23utility.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qabstracteventdispatcher.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qabstractitemmodel.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qalgorithms.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qanystringview.h \
@@ -298,7 +290,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qatomic.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qatomic_cxx11.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbasicatomic.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbasictimer.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbindingstorage.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbytearray.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
@@ -315,16 +306,12 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcontainerinfo.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcontainertools_impl.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcontiguouscache.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcoreapplication.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qcoreevent.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qdarwinhelpers.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qdatastream.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qdeadlinetimer.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qdebug.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qelapsedtimer.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qendian.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qeventloop.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qexceptionhandling.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qflags.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qfloat16.h \
@@ -353,7 +340,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qmetatype.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qminmax.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qnamespace.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qnativeinterface.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qnumeric.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qobject.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qobject_impl.h \
@@ -365,7 +351,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qprocessordetection.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qproperty.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qpropertyprivate.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrandom.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrect.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qrefcount.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qregularexpression.h \
@@ -407,7 +392,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtextstream.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtformat_impl.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qthread.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtimer.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtmetamacros.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtnoop.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
@@ -418,7 +402,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtversionchecks.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtypeinfo.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qtypes.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qurl.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qutf8stringview.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qvariant.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qvarlengtharray.h \
@@ -426,83 +409,50 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qxptype_traits.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtCore/qyieldcpu.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/QImage \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/QPixmap \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/QTransform \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qaction.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qbitmap.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qbrush.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qcolor.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qcursor.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qevent.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qeventpoint.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qfont.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qfontdatabase.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qfontinfo.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qfontmetrics.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qfontvariableaxis.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qglyphrun.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qguiapplication.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qguiapplication_platform.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qicon.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qimage.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qinputdevice.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qinputmethod.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qkeysequence.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpaintdevice.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpalette.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpen.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpicture.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpixelformat.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpixmap.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpointingdevice.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qpolygon.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qrawfont.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qregion.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qrgb.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qrgba64.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qscreen.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qscreen_platform.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextcursor.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextdocument.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextformat.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextlayout.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtextoption.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtgui-config.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtguiexports.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtguiglobal.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qtransform.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qvalidator.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qvector2d.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qvectornd.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtGui/qwindowdefs.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/QSerialPort \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qserialport.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qserialportglobal.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtSerialPort/qtserialportexports.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QComboBox \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QLabel \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QMainWindow \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QMessageBox \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QPlainTextEdit \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QPushButton \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QSlider \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QSpinBox \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/QWidget \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractbutton.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractslider.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qcombobox.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qdialog.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qframe.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qlabel.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qmainwindow.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qmessagebox.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qplaintextedit.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qpushbutton.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qrubberband.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qsizepolicy.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qslider.h \
@@ -511,7 +461,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qstyleoption.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtabbar.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtabwidget.h \
-	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtextedit.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
 	/mnt/nabeel_data/dev/qt/Qt/6.9.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -649,8 +598,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/usr/include/c++/13/bits/predefined_ops.h \
 	/usr/include/c++/13/bits/ptr_traits.h \
 	/usr/include/c++/13/bits/quoted_string.h \
-	/usr/include/c++/13/bits/random.h \
-	/usr/include/c++/13/bits/random.tcc \
 	/usr/include/c++/13/bits/range_access.h \
 	/usr/include/c++/13/bits/refwrap.h \
 	/usr/include/c++/13/bits/requires_hosted.h \
@@ -757,7 +704,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/usr/include/c++/13/pstl/glue_numeric_defs.h \
 	/usr/include/c++/13/pstl/pstl_config.h \
 	/usr/include/c++/13/queue \
-	/usr/include/c++/13/random \
 	/usr/include/c++/13/ratio \
 	/usr/include/c++/13/set \
 	/usr/include/c++/13/sstream \
@@ -995,7 +941,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
 	/usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
 	/usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
-	/usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
 	/usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
 	/usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
 	/usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
