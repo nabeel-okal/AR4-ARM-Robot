@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../../objectdetectiontab.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -41,30 +42,13 @@ template <> constexpr inline auto ObjectDetectionTab::qt_create_metaobjectdata<q
         "ObjectDetectionTab",
         "onFrameReady",
         "",
-        "frame",
-        "onCameraFrame",
-        "onModelChanged",
-        "index",
-        "onConfidenceChanged",
-        "v"
+        "frame"
     };
 
     QtMocHelpers::UintData qt_methods {
         // Slot 'onFrameReady'
         QtMocHelpers::SlotData<void(const QImage &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QImage, 3 },
-        }}),
-        // Slot 'onCameraFrame'
-        QtMocHelpers::SlotData<void(const QImage &)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QImage, 3 },
-        }}),
-        // Slot 'onModelChanged'
-        QtMocHelpers::SlotData<void(int)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 6 },
-        }}),
-        // Slot 'onConfidenceChanged'
-        QtMocHelpers::SlotData<void(int)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 8 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -90,9 +74,6 @@ void ObjectDetectionTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->onFrameReady((*reinterpret_cast< std::add_pointer_t<QImage>>(_a[1]))); break;
-        case 1: _t->onCameraFrame((*reinterpret_cast< std::add_pointer_t<QImage>>(_a[1]))); break;
-        case 2: _t->onModelChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 3: _t->onConfidenceChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         default: ;
         }
     }
@@ -117,14 +98,14 @@ int ObjectDetectionTab::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 1)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 1;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 1)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 4;
+        _id -= 1;
     }
     return _id;
 }

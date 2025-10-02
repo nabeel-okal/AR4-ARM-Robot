@@ -89,7 +89,7 @@ void MainWindow::connectSignals()
                                        dir==RobotControl::Backward ? "BWD" :
                                        dir==RobotControl::Right ? "RIGHT" : "LEFT");
                 if (auto log = robotControl->getTextRobotLog())
-                    obDetTab->getDetLogTextEdit()->append(QString("[CMD] Drive %1 @ %2%").arg(d).arg(speed));
+                    obDetTab->getDetLogTextEdit()->appendPlainText(QString("[CMD] Drive %1 @ %2%").arg(d).arg(speed));
             });
 
     connect(robotControl, &RobotControl::stopRequested, this, [this](){

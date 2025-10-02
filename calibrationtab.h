@@ -21,14 +21,12 @@ public:
     ~CalibrationTab();
 
 signals:
-
     // 0..1 normalized values for camera tuning (UI-agnostic)
     void exposureNormChanged(double x);
     void brightnessNormChanged(double x);
     void contrastNormChanged(double x);
 
 private slots:
-
     // Buttons
     void on_btnStartCalibration_clicked();
     void on_btnLoadCalibration_clicked();
@@ -39,7 +37,6 @@ private slots:
     void on_sliderExposure_valueChanged(int value);
     void on_sliderBrightness_valueChanged(int value);
     void on_sliderContrast_valueChanged(int value);
-
 
     void on_spinExposure_valueChanged(int arg1);
     void on_spinBrightness_valueChanged(int arg1);
@@ -53,6 +50,18 @@ private:
     bool runCalibration(const QStringList& imagePaths,
                         const cv::Size& boardSize, float squareSize,
                         double& outRMS);
+
+    // compute and log detailed reprojection error
+    double computeReprojErrors(const std::vector<std::vector<cv::Point3f>>& objectPoints,
+                               const std::vector<std::vector<cv::Point2f>>& imagePoints,
+                               const std::vector<cv::Mat>& rvecs,
+                               const std::vector<cv::Mat>& tvecs,
+                               const cv::Mat& cameraMatrix,
+                               const cv::Mat& distCoeffs,
+                               std::vector<double>& perViewErrors);
+
+    // map 0..100 UI to 0..1
+    static inline double norm01(int v) { if (v < 0) v = 0; if (v > 100) v = 100; return v / 100.0; }
 
 private:
     Ui::CalibrationTab *ui;

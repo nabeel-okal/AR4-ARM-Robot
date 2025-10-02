@@ -5,35 +5,48 @@
 #include <QSlider>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QComboBox>
+#include <QDateTime>
+#include <QFocusEvent>
 
 RobotControl::RobotControl(QWidget *parent)
     : QWidget(parent), ui(new Ui::RobotControl)
 {
     ui->setupUi(this);
 
-    // Speed slider setup (0..100)
+    // Speed slider (0..100)
     ui->speedSlider->setRange(0,100);
     ui->speedSlider->setValue(m_speed);
-    ui->speedValueLabel->setText(QString::number(m_speed) + "%");
+    if (ui->speedValueLabel) ui->speedValueLabel->setText(QString::number(m_speed) + "%");
 
-    // (Optional) avoid button auto-repeat; we handle press/release explicitly
-    ui->forwardBtn->setAutoRepeat(false);
-    ui->backwardBtn->setAutoRepeat(false);
-    ui->rightBtn->setAutoRepeat(false);
-    ui->leftBtn->setAutoRepeat(false);
-
+    // Avoid button auto-repeat; we handle press/release explicitly
+    if (ui->forwardBtn)  ui->forwardBtn->setAutoRepeat(false);
+    if (ui->backwardBtn) ui->backwardBtn->setAutoRepeat(false);
+    if (ui->rightBtn)    ui->rightBtn->setAutoRepeat(false);
+    if (ui->leftBtn)     ui->leftBtn->setAutoRepeat(false);
 
     // Keyboard focus so we can receive key events
     setFocusPolicy(Qt::StrongFocus);
 
-    // Reasonable Defaults
-    if(auto rb = ui->rbModeJoint)      rb->setCheckable(true);
-    if(auto cb = ui->chEnableMotors)   cb->setChecked(false);
+    // Reasonable defaults
+    if (ui->rbModeJoint)   ui->rbModeJoint->setChecked(true);
+    if (ui->rbModePlanar)  ui->rbModePlanar->setChecked(false);
+    if (ui->chEnableMotors) ui->chEnableMotors->setChecked(false);
+
+    populateCombosOnce();
+
+    // Initially disabled (until MainWindow sets connection)
+    setConnected(false);
 
     log("Robot Control ready. Connect to robot to enable motion.");
 }
 
-RobotControl::~RobotControl() { delete ui; }
+RobotControl::~RobotControl()
+{
+    delete ui;
+}
 
 QTextEdit *RobotControl::getTextRobotLog() const
 {
@@ -42,19 +55,18 @@ QTextEdit *RobotControl::getTextRobotLog() const
 
 void RobotControl::setConnected(bool ok)
 {
+    // If we're losing connection, ensure we stop
+    if (m_connected && !ok) {
+        ensureStopped("connection lost");
+    }
+
     m_connected = ok;
+    setDriveControlsEnabled(ok);
 
-    const bool enable = ok; // buttons enabled only when connected
-    const QList<QWidget*> controls = {
-        ui->forwardBtn, ui->backwardBtn, ui->rightBtn, ui->leftBtn, ui->stopBtn,
-        ui->speedSlider, ui->rbModeJoint, ui->rbModePlanar, ui->comboJoint, ui->comboAxis
-    };
+    // Motors checkbox always enabled (allows staging before connect)
+    if (ui->chEnableMotors) ui->chEnableMotors->setEnabled(true);
 
-    for(QWidget* w : controls) if(w) w->setEnabled(enable);
-
-    if(ui->chEnableMotors)  ui->chEnableMotors->setEnabled(true);
-
-    log(QString("Connection: %1").arg(ok ? "Connected" : "Disconnected"));
+    log(QString("%1 Connection: %2").arg(ts()).arg(ok ? "Connected" : "Disconnected"));
 }
 
 bool RobotControl::motorsEnabled() const
@@ -69,14 +81,15 @@ int RobotControl::speedPercent() const
 
 int RobotControl::selectedJoint() const
 {
+    // 1..6
     return (ui->comboJoint ? ui->comboJoint->currentIndex() + 1 : 1);
 }
 
 char RobotControl::selectedAxis() const
 {
     if(!ui->comboAxis)  return 'X';
-    const auto axis_value = ui->comboAxis->currentText().toUpper();
-    return axis_value.contains('Z') ? 'Z' : (axis_value.contains('Y') ? 'Y' : 'X');
+    const auto t = ui->comboAxis->currentText().toUpper();
+    return t.contains('Z') ? 'Z' : (t.contains('Y') ? 'Y' : 'X');
 }
 
 RobotControl::Mode RobotControl::mode() const
@@ -84,59 +97,26 @@ RobotControl::Mode RobotControl::mode() const
     return (ui->rbModePlanar && ui->rbModePlanar->isChecked() ? Planar : Joint);
 }
 
-void RobotControl::on_forwardBtn_pressed()
-{
-    emit driveRequested(Forward, m_speed);
-    log("Drive FORWARD");
-}
+// ---------------- Button handlers (press/hold jog) ----------------
 
-void RobotControl::on_forwardBtn_released()
-{
-    emit stopRequested();
-    log("Stop");
-}
+void RobotControl::on_forwardBtn_pressed()  { requestDrive(Forward);  log(ts() + " Drive: FORWARD"); }
+void RobotControl::on_forwardBtn_released() { ensureStopped("forward release"); }
 
-void RobotControl::on_backwardBtn_pressed()
-{
-    emit driveRequested(Backward, m_speed);
-    log("Drive: BACKWARD");
-}
+void RobotControl::on_backwardBtn_pressed()  { requestDrive(Backward); log(ts() + " Drive: BACKWARD"); }
+void RobotControl::on_backwardBtn_released() { ensureStopped("backward release"); }
 
-void RobotControl::on_backwardBtn_released()
-{
-    emit stopRequested();
-    log("Stop");
-}
+void RobotControl::on_rightBtn_pressed()  { requestDrive(Right);  log(ts() + " Drive: RIGHT"); }
+void RobotControl::on_rightBtn_released() { ensureStopped("right release"); }
 
-void RobotControl::on_rightBtn_pressed()
-{
-    emit driveRequested(Right, m_speed);
-    log("Drive: RIGHT");
-}
-
-void RobotControl::on_rightBtn_released()
-{
-    emit stopRequested();
-    log("Stop");
-}
-
-void RobotControl::on_leftBtn_pressed()
-{
-    emit driveRequested(Left, m_speed);
-    log("Drive: LEFT");
-}
-
-void RobotControl::on_leftBtn_released()
-{
-    emit stopRequested();
-    log("Stop");
-}
+void RobotControl::on_leftBtn_pressed()  { requestDrive(Left);  log(ts() + " Drive: LEFT"); }
+void RobotControl::on_leftBtn_released() { ensureStopped("left release"); }
 
 void RobotControl::on_stopBtn_clicked()
 {
-    emit stopRequested();
-    log("Stop");
+    ensureStopped("STOP button");
 }
+
+// ---------------- Speed ----------------
 
 void RobotControl::on_speedSlider_valueChanged(int value)
 {
@@ -144,62 +124,43 @@ void RobotControl::on_speedSlider_valueChanged(int value)
     if(value > 100) value = 100;
 
     m_speed = value;
-    ui->speedValueLabel->setText(QString::number(m_speed) + "%");
+    if (ui->speedValueLabel) ui->speedValueLabel->setText(QString::number(m_speed) + "%");
     emit speedChanged(m_speed);
+    log(QString("%1 Speed -> %2%").arg(ts()).arg(m_speed));
 }
 
-void RobotControl::log(const QString &s)
-{
-    if (ui->textRobotLog)
-        ui->textRobotLog->append(s);
-}
+// ---------------- Modes / Motors ----------------
 
-bool RobotControl::canDrive(const char *reasonIfNo) const
-{
-    if (!m_connected) {
-        if (reasonIfNo) const_cast<RobotControl*>(this)->log("[Guard] Not connected.");
-        return false;
-    }
-    if (!motorsEnabled()) {
-        if (reasonIfNo) const_cast<RobotControl*>(this)->log("[Guard] Motors disabled.");
-        return false;
-    }
-    return true;
-}
-
-void RobotControl::requestDrive(Direction d)
-{
-    if (!canDrive("reason")) return;
-    emit driveRequested(d, speedPercent());
-}
 void RobotControl::on_chEnableMotors_toggled(bool checked)
 {
     emit motorsEnabledChanged(checked);
-    log(QString("Motors %1").arg(checked ? "ENABLED" : "DISABLED"));
+    log(QString("%1 Motors %2").arg(ts()).arg(checked ? "ENABLED" : "DISABLED"));
 }
-
 
 void RobotControl::on_rbModeJoint_toggled(bool checked)
 {
     if(!checked) return;
     emit modeChanged(Joint);
-    log("Mode: Joint");
-
-    // (OPTIONAL) show/hide the relevant selectors
+    // switch visibility (no .ui change)
     if(ui->comboJoint) ui->comboJoint->setVisible(true);
-    if (ui->comboAxis)  ui->comboAxis->setVisible(false);
-}
+    if(ui->comboAxis)  ui->comboAxis->setVisible(false);
 
+    ensureStopped("mode -> Joint"); // safety
+    log(ts() + " Mode: Joint");
+}
 
 void RobotControl::on_rbModePlanar_toggled(bool checked)
 {
     if (!checked) return;
     emit modeChanged(Planar);
-    log("Mode: Planar");
-    // (optional) show/hide the relevant selectors
-    if (ui->comboJoint) ui->comboJoint->setVisible(false);
-    if (ui->comboAxis)  ui->comboAxis->setVisible(true);
+    if(ui->comboJoint) ui->comboJoint->setVisible(false);
+    if(ui->comboAxis)  ui->comboAxis->setVisible(true);
+
+    ensureStopped("mode -> Planar"); // safety
+    log(ts() + " Mode: Planar");
 }
+
+// ---------------- Keyboard driving ----------------
 
 void RobotControl::keyPressEvent(QKeyEvent *e)
 {
@@ -208,13 +169,13 @@ void RobotControl::keyPressEvent(QKeyEvent *e)
 
     switch (e->key()) {
     case Qt::Key_W:
-    case Qt::Key_Up:    requestDrive(Forward);  log("Key: FORWARD");  break;
+    case Qt::Key_Up:    requestDrive(Forward);  log(ts() + " Key: FORWARD");  break;
     case Qt::Key_S:
-    case Qt::Key_Down:  requestDrive(Backward); log("Key: BACKWARD"); break;
+    case Qt::Key_Down:  requestDrive(Backward); log(ts() + " Key: BACKWARD"); break;
     case Qt::Key_A:
-    case Qt::Key_Left:  requestDrive(Left);     log("Key: LEFT");     break;
+    case Qt::Key_Left:  requestDrive(Left);     log(ts() + " Key: LEFT");     break;
     case Qt::Key_D:
-    case Qt::Key_Right: requestDrive(Right);    log("Key: RIGHT");    break;
+    case Qt::Key_Right: requestDrive(Right);    log(ts() + " Key: RIGHT");    break;
     default: QWidget::keyPressEvent(e); return;
     }
     e->accept();
@@ -232,9 +193,87 @@ void RobotControl::keyReleaseEvent(QKeyEvent *e)
     case Qt::Key_S: case Qt::Key_Down:
     case Qt::Key_A: case Qt::Key_Left:
     case Qt::Key_D: case Qt::Key_Right:
-        emit stopRequested(); log("Key: Stop"); e->accept(); return;
+        ensureStopped("key release");
+        e->accept();
+        return;
     default:
-        QWidget::keyReleaseEvent(e); return;
+        QWidget::keyReleaseEvent(e);
+        return;
     }
+}
 
+void RobotControl::focusOutEvent(QFocusEvent *e)
+{
+    // Safety: if window/tab loses focus while jogging, stop the robot.
+    ensureStopped("focus lost");
+    QWidget::focusOutEvent(e);
+}
+
+// ---------------- Internals ----------------
+
+void RobotControl::log(const QString &s)
+{
+    if (ui->textRobotLog)
+        ui->textRobotLog->append(s);
+}
+
+QString RobotControl::ts() const
+{
+    return QDateTime::currentDateTime().toString("[hh:mm:ss]");
+}
+
+bool RobotControl::canDrive(bool logReason) const
+{
+    if (!m_connected) {
+        if (logReason) const_cast<RobotControl*>(this)->log(ts() + " [Guard] Not connected.");
+        return false;
+    }
+    if (!motorsEnabled()) {
+        if (logReason) const_cast<RobotControl*>(this)->log(ts() + " [Guard] Motors disabled.");
+        return false;
+    }
+    return true;
+}
+
+void RobotControl::requestDrive(Direction d)
+{
+    if (!canDrive(true)) return;
+    emit driveRequested(d, speedPercent());
+}
+
+void RobotControl::ensureStopped(const QString& why)
+{
+    static bool stopping = false; // avoid duplicate stop spam in tight sequences
+    if (stopping) return;
+    stopping = true;
+    emit stopRequested();
+    if (!why.isEmpty()) log(ts() + " Stop (" + why + ")");
+    stopping = false;
+}
+
+void RobotControl::setDriveControlsEnabled(bool on)
+{
+    const QList<QWidget*> controls = {
+        ui->forwardBtn, ui->backwardBtn, ui->rightBtn, ui->leftBtn, ui->stopBtn,
+        ui->speedSlider, ui->rbModeJoint, ui->rbModePlanar, ui->comboJoint, ui->comboAxis
+    };
+    for (QWidget* w : controls) if (w) w->setEnabled(on);
+}
+
+void RobotControl::populateCombosOnce()
+{
+    // Fill comboJoint (1..6) if empty
+    if (ui->comboJoint && ui->comboJoint->count() == 0) {
+        for (int j = 1; j <= 6; ++j)
+            ui->comboJoint->addItem(QString("J%1").arg(j));
+        ui->comboJoint->setCurrentIndex(0);
+    }
+    // Fill comboAxis (X/Y/Z) if empty
+    if (ui->comboAxis && ui->comboAxis->count() == 0) {
+        ui->comboAxis->addItems({"X", "Y", "Z"});
+        ui->comboAxis->setCurrentIndex(0);
+    }
+    // Start with Joint mode visuals
+    if (ui->comboJoint) ui->comboJoint->setVisible(true);
+    if (ui->comboAxis)  ui->comboAxis->setVisible(false);
 }

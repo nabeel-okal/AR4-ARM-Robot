@@ -36,7 +36,6 @@ public:
     QSplitter *splitter;
     QWidget *widget;
     QVBoxLayout *verticalLayout;
-    QLabel *videoLabel;
     QLabel *cameraStatusLabel;
     QLabel *robotStatusLabel;
     QTabWidget *tabWidget;
@@ -153,16 +152,6 @@ public:
         widget->setObjectName("widget");
         verticalLayout = new QVBoxLayout(widget);
         verticalLayout->setObjectName("verticalLayout");
-        videoLabel = new QLabel(widget);
-        videoLabel->setObjectName("videoLabel");
-        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(videoLabel->sizePolicy().hasHeightForWidth());
-        videoLabel->setSizePolicy(sizePolicy);
-
-        verticalLayout->addWidget(videoLabel);
-
         cameraStatusLabel = new QLabel(widget);
         cameraStatusLabel->setObjectName("cameraStatusLabel");
 
@@ -218,7 +207,6 @@ public:
         actionCalibration->setText(QCoreApplication::translate("MainWindow", "Calibration", nullptr));
         actionRobot_Control->setText(QCoreApplication::translate("MainWindow", "Robot Control", nullptr));
         actionAbout->setText(QCoreApplication::translate("MainWindow", "About", nullptr));
-        videoLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         cameraStatusLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         robotStatusLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
