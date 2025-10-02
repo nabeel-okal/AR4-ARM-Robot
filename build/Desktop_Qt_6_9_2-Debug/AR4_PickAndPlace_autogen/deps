@@ -258,7 +258,6 @@ AR4_PickAndPlace_autogen/timestamp: \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/mainwindow.h \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/objectdetectiontab.cpp \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/objectdetectiontab.h \
-	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/resources.qrc \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/robotcontrol.cpp \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/robotcontrol.h \
 	/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/robotcontrollerworker.cpp \

@@ -10,15 +10,12 @@ find_package(OpenCV 4 REQUIRED)
 
 qt_standard_project_setup()
 
-qt_add_resources(MyQtApp_RESOURCES resources.qrc)
-
 qt_add_executable(AR4_PickAndPlace
     WIN32 MACOSX_BUNDLE
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    ${MyQtApp_RESOURCES}
     calibrationtab.h calibrationtab.cpp calibrationtab.ui
     robotcontrol.h robotcontrol.cpp robotcontrol.ui
     settings.h settings.cpp settings.ui

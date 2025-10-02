@@ -534,7 +534,6 @@
 		"/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake",
 		"/mnt/nabeel_data/dev/qt/Qt/Tools/CMake/share/cmake-3.30/Modules/GNUInstallDirs.cmake",
-		"/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/resources.qrc",
 		"/mnt/nabeel_data/dev/qt/Qt/Tools/CMake/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace",
@@ -635,10 +634,7 @@
 	],
 	"MOC_PREDEFS_FILE" : "/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/AR4_PickAndPlace_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
-	"MOC_SKIP" : 
-	[
-		"/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/qrc_resources.cpp"
-	],
+	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 4,
 	"PARSE_CACHE_FILE" : "/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/CMakeFiles/AR4_PickAndPlace_autogen.dir/ParseCache.txt",
@@ -688,10 +684,7 @@
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
-	"UIC_SKIP" : 
-	[
-		"/home/nabeel_okal/Qt_Projects/AR4_PickAndPlace/build/Desktop_Qt_6_9_2-Debug/qrc_resources.cpp"
-	],
+	"UIC_SKIP" : [],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,
 	"VERBOSITY" : 0
